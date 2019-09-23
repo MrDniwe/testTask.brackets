@@ -1,0 +1,19 @@
+{
+  "name": "testtask.brackets",
+  "version": "1.0.0",
+  "description": "A test task for detecting a longest sequence of correct brackets in a given string",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha test/**/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/MrDniwe/testTask.brackets.git"
+  },
+  "author": "Sergey Belevskiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrDniwe/testTask.brackets/issues"
+  },
+  "homepage": "https://github.com/MrDniwe/testTask.brackets#readme"
+}
