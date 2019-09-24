@@ -1,4 +1,4 @@
-const {bracketSequence} = require('../src/index.js');
+const {bracketSequence, bracketSubst} = require('../src/index.js');
 const expect = require('chai').expect;
 
 const mocks = [
@@ -12,21 +12,43 @@ const mocks = [
     },
 ];
 
-describe('We should firstly test our function for edge cases', () => {
-    it('When empty string given: expecting empty string', () => {
+describe('Протестируем пограничные случаи', () => {
+    it('Когда дана пустая строка - возвращаем пустую строку', () => {
         expect(bracketSequence('')).to.be.equal('');
     });
-    it('When not a string given: expecting TypeError', () => {
+    it('Когда дана не строка - ожидаем TypeError', () => {
         expect(bracketSequence).to.throw(TypeError);
         expect(() => bracketSequence(123)).to.throw(TypeError);
     });
-    it('If the string contains non-brackets chars, expecting TypeError', () => {
+    it('Когда в строке есть что-то кроме скобок - ожидаем TypeError', () => {
         expect(() => bracketSequence('[1]')).to.throw(TypeError);
     });
 });
 
-describe('Testing common functionality', () => {
-    it('Should give expected results for each of mock cases', () => {
+describe('Тестирование вспомогательного функционала', () => {
+    it('Для пустой строки возвращает пустую строку', () => {
+        expect(bracketSubst('')).to.be.equal('');
+    });
+    it('Для строки, начинающейся с закрывающей скобки возвращает пустую строку', () => {
+        expect(bracketSubst('}')).to.be.equal('');
+        expect(bracketSubst(')}')).to.be.equal('');
+    });
+    it('Для строки с только открывающими скобками возвращает эту строку', () => {
+        expect(bracketSubst('(({[')).to.be.equal('(({[');
+    });
+    it('Для строки с только открывающими скобками и корректными сочетаниями, возвращает всю строку', () => {
+        expect(bracketSubst('(({[]}')).to.be.equal('(({[]}');
+    });
+    it('Для строки с открывающими скобками и корректными сочетаниями, возвращает строку до первой некорректной скобки', () => {
+        expect(bracketSubst('(({[]}]]])))}')).to.be.equal('(({[]}');
+    });
+    it('Для строки с открывающими скобками и несколькими корректными сочетаниями, разделенными некорректными, возвращает подстроку до первой некорректной скобки', () => {
+        expect(bracketSubst('{[()]]()}')).to.be.equal('{[()]');
+    });
+});
+
+describe('Тестирование основного функционала', () => {
+    it('Ожидаем корректные результаты для каждого тест-кейса', () => {
         mocks.map(mock => {
             expect(bracketSequence(mock.sample)).to.be.equal(mock.expect);
         });
