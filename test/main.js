@@ -1,4 +1,8 @@
-const {bracketSequence, bracketSubst} = require('../src/index.js');
+const {
+    bracketSequence,
+    bracketSubst,
+    bracketSplit,
+} = require('../src/index.js');
 const expect = require('chai').expect;
 
 const mocks = [
@@ -44,6 +48,13 @@ describe('Тестирование вспомогательного функци
     });
     it('Для строки с открывающими скобками и несколькими корректными сочетаниями, разделенными некорректными, возвращает подстроку до первой некорректной скобки', () => {
         expect(bracketSubst('{[()]]()}')).to.be.equal('{[()]');
+    });
+    it('Для строки с несколькими корректными последовательностями, разделенными некорректными, возвращает массив корректных последовательностей', () => {
+        expect(bracketSplit('((()][]}{}))')).to.be.have.members([
+            '((()',
+            '[]',
+            '{}',
+        ]);
     });
 });
 

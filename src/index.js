@@ -1,6 +1,8 @@
+const _ = require('lodash');
 module.exports = {
     bracketSequence,
     bracketSubst,
+    bracketSplit,
 };
 
 function bracketSequence(data) {
@@ -8,6 +10,7 @@ function bracketSequence(data) {
     return '';
 }
 
+// принимает строку, возвращает последовательность открывающих и корректно закрывающих скобок, до первой некорректной закрывающей скобки
 function bracketSubst(data) {
     if (!data) return '';
     const openingBrackets = '({[';
@@ -37,4 +40,15 @@ function bracketSubst(data) {
         ss += data.charAt(i);
     }
     return ss;
+}
+
+// принимает строку, возвращает массив, из последовательностей bracketSubst
+function bracketSplit(data) {
+    if (!data) return [];
+    let currentSegment = bracketSubst(data);
+    if (!currentSegment) return bracketSplit(data.substr(1));
+    return _.compact([
+        currentSegment,
+        ...bracketSplit(data.substr(currentSegment.length)),
+    ]);
 }
