@@ -16,9 +16,12 @@ describe('We should firstly test our function for edge cases', () => {
     it('When empty string given: expecting empty string', () => {
         expect(bracketSequence('')).to.be.equal('');
     });
-    it('When not a string given: expecting empty string', () => {
-        expect(bracketSequence()).to.be.equal('');
-        expect(bracketSequence(123)).to.be.equal('');
+    it('When not a string given: expecting TypeError', () => {
+        expect(bracketSequence).to.throw(TypeError);
+        expect(() => bracketSequence(123)).to.throw(TypeError);
+    });
+    it('If the string contains non-brackets chars, expecting TypeError', () => {
+        expect(() => bracketSequence('[1]')).to.throw(TypeError);
     });
 });
 
