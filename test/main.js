@@ -2,6 +2,7 @@ const {
     bracketSequence,
     bracketSubst,
     bracketSplit,
+    bracketReverse,
 } = require('../src/index.js');
 const expect = require('chai').expect;
 
@@ -11,7 +12,11 @@ const mocks = [
         expect: '()[()]',
     },
     {
-        sample: '(())()[{[[]]}]',
+        sample: '(())()}[{[[]]}]',
+        expect: '[{[[]]}]',
+    },
+    {
+        sample: '(())(){[{[[]]}]',
         expect: '[{[[]]}]',
     },
 ];
@@ -55,6 +60,9 @@ describe('Тестирование вспомогательного функци
             '[]',
             '{}',
         ]);
+    });
+    it('Проверка реверсивной функции', () => {
+        expect(bracketReverse('()[[}')).to.be.equal('{]]()');
     });
 });
 
